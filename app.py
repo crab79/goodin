@@ -1,18 +1,28 @@
 from flask import Flask, render_template
-from flask_restful import Api
-from api.stock_api import StockAPI
-from models.stock_model import StockModel
 
-app = Flask(__name__)
-api = Api(app)
-
-api.add_resource(StockAPI, '/api/stock')
+app = Flask(__name__, 
+            static_folder='static',  # 這裡設為你的 static 資料夾路徑
+            template_folder='templates')  # 這裡設為你的 templates 資料夾路徑
 
 @app.route('/')
 def index():
-    stock_model = StockModel()
-    stocks = stock_model.get_all_stocks()
-    return render_template('index.html', stocks=stocks)
+    return render_template('stock_class.html')
 
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+@app.route('/learning_analysis')
+def learning_analysis():
+    return render_template('learning_analysis.html')
+
+@app.route('/practice_selection')
+def practice_selection():
+    return render_template('practice_selection.html')
+
+@app.route('/course_selection')
+def course_selection():
+    return render_template('course_selection.html')
+
+@app.route('/course')
+def course():
+    return render_template('course.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
