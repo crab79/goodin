@@ -24,5 +24,9 @@ def course_selection():
 def course():
     return render_template('course.html')
 
+@app.route('/practice')
+def practice():
+    return render_template('practice.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
