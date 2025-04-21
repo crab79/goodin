@@ -63,7 +63,7 @@ def convert_to_flask_static(html_file, output_file=None):
         # 假設以 .html 結尾的連結是頁面路由
         if href.endswith('.html'):
             # 移除 .html 後綴，轉為 Flask 路由名稱
-            route_name = href[:-5]  # 移除 '.html'
+            route_name = href.lstrip('./')[:-5]  # 移除 './' 和 '.html'
             a_tag['href'] = "{{ url_for('" + route_name + "') }}"
             link_count += 1
     print(f"找到並轉換了 {link_count} 個頁面連結")

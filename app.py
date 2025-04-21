@@ -7,6 +7,10 @@ app = Flask(__name__,
 @app.route('/')
 def index():
     return render_template('stock_class.html')
+    
+@app.route('/stock_class')
+def stock_class():
+    return render_template('stock_class.html')
 
 @app.route('/learning_analysis')
 def learning_analysis():
