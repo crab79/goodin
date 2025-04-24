@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>個人資料</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='e5a9c1a0a33aefa9a57e.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='5e28aab59329b5f50217.css') }}" rel="stylesheet" />
+  <script defer src="{{ url_for('static', filename='app.bundle.js') }}"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #fcfdfd;
+    }
+    .profile-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+    .profile-card {
+      background-color: rgb(250, 252, 252);
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 2rem 3rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+    .profile-card h2 {
+      margin-bottom: 1.5rem;
+      color: #2e59d9;
+    }
+    .profile-pic {
+      font-size: 4rem;
+      color: #3a72a3;
+      margin-bottom: 1rem;
+    }
+    .profile-info {
+      text-align: left;
+      font-size: 1rem;
+      line-height: 2;
+    }
+    .profile-info li {
+      list-style: none;
+    }
+    .button-group {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .profile-button {
+      background-color: #9da4ae;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .profile-button:hover {
+      background-color: #738ea6;
+    }
+  </style>
+</head>
+<body id="page-top">
+  <div id="wrapper">
+    {% include 'sidebar.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        {% include 'topbar.html' %}
+        <div class="container-fluid profile-wrapper">
+          <div class="profile-card">
+            <h2>個人資料</h2>
+            <div class="profile-pic">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <ul class="profile-info">
+              <li>會員ID：3024001</li>
+              <li>會員姓名：劉小明</li>
+              <li>會員性別：男</li>
+              <li>會員手機：0917-171717</li>
+              <li>會員信箱：www@gmail.com</li>
+            </ul>
+            <div class="button-group">
+              <button class="profile-button" onclick="history.back()">返回</button>
+              <button class="profile-button" onclick="window.location.href='/edit-profile'">編輯</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>2025</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>

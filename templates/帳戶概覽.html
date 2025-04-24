@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>帳戶概覽</title>
+  <link href="{{ url_for('static', filename='e5a9c1a0a33aefa9a57e.css') }}" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
+  <link href="{{ url_for('static', filename='5e28aab59329b5f50217.css') }}" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="{{ url_for('static', filename='app.bundle.js') }}"></script>
+  <style>
+    .summary-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .card-box {
+      background: white;
+      flex: 1;
+      min-width: 180px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .card-box h4 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #6c757d;
+    }
+    .card-box p {
+      font-size: 20px;
+      font-weight: bold;
+      color: #2e59d9;
+    }
+
+    .chart-and-table {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .chart-container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      height: 350px;
+      flex-shrink: 0;
+    }
+
+    .table-container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      flex: 1;
+      height: 350px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      text-align: center;
+    }
+    th {
+      background-color: #f8f9fc;
+      color: #4e73df;
+    }
+  </style>
+</head>
+<body id="page-top">
+  <div id="wrapper">
+    {% include 'sidebar.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        {% include 'topbar.html' %}
+
+        <div class="container-fluid">
+          <h1 class="h3 mb-4 text-gray-800">帳戶概覽</h1>
+
+          <!-- 資產摘要 -->
+          <div class="summary-cards">
+            <div class="card-box">
+              <h4>總資產</h4>
+              <p>$1,200,000</p>
+            </div>
+            <div class="card-box">
+              <h4>可用現金</h4>
+              <p>$300,000</p>
+            </div>
+            <div class="card-box">
+              <h4>持股總市值</h4>
+              <p>$900,000</p>
+            </div>
+            <div class="card-box">
+              <h4>累積損益</h4>
+              <p>+12.5%</p>
+            </div>
+            <div class="card-box">
+              <h4>當日損益</h4>
+              <p>+1.2%</p>
+            </div>
+          </div>
+
+          <!-- 圓餅圖與持股明細 -->
+          <div class="chart-and-table mb-4">
+            <div class="chart-container">
+              <canvas id="assetChart"></canvas>
+            </div>
+
+            <div class="table-container">
+              <h5 class="mb-3">持股明細</h5>
+              <table>
+                <thead>
+                  <tr>
+                    <th>股票代號</th>
+                    <th>名稱</th>
+                    <th>股數</th>
+                    <th>成本價</th>
+                    <th>現價</th>
+                    <th>市值</th>
+                    <th>損益</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2330</td>
+                    <td>台積電</td>
+                    <td>100</td>
+                    <td>$600</td>
+                    <td>$650</td>
+                    <td>$65,000</td>
+                    <td class="text-success">+8.3%</td>
+                  </tr>
+                  <tr>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>2025</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('assetChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['可用現金', '持股市值'],
+        datasets: [{
+          label: '資產分布',
+          data: [300000, 900000],
+          backgroundColor: ['#36b9cc', '#4e73df']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

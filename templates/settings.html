@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+  <meta name="description" content="使用者設定頁面" />
+  <meta name="author" content="" />
+  <title>設定頁面</title>
+
+  
+  <link href="{{ url_for('static', filename='e5a9c1a0a33aefa9a57e.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='5e28aab59329b5f50217.css') }}" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet" />
+  <script defer src="{{ url_for('static', filename='app.bundle.js') }}"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body id="page-top">
+  <div id="wrapper">
+
+    {% include 'sidebar.html' %}
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        
+        {% include 'topbar.html' %}
+
+        <!-- 主頁內容 -->
+        <div class="container-fluid">
+          <h1 class="h3 mb-4 text-gray-800">設定</h1>
+
+          <div class="row">
+            <!-- 智慧分析 -->
+            <div class="col-lg-4 mb-4">
+              <div class="card border-left-info shadow h-100 py-4 px-3 text-center">
+                <div class="card-body">
+                  <i class="fas fa-brain fa-2x text-info mb-3"></i>
+                  <h5 class="text-info font-weight-bold">智慧分析</h5>
+                  <p class="text-gray-700">為你量身打造，你可能會喜歡的股票!</p>
+                  <a href="#" class="btn btn-info btn-sm">前往</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 個人資料 -->
+            <div class="col-lg-4 mb-4">
+              <div class="card border-left-primary shadow h-100 py-4 px-3 text-center">
+                <div class="card-body">
+                  <i class="fas fa-user fa-2x text-primary mb-3"></i>
+                  <h5 class="text-primary font-weight-bold">個人資料</h5>
+                  <p class="text-gray-700">檢視與更新您的聯絡方式與帳戶基本資料。</p>
+                  <a href="{{ url_for('profile') }}" class="btn btn-primary">前往</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 帳戶概覽 -->
+            <div class="col-lg-4 mb-4">
+              <div class="card border-left-success shadow h-100 py-4 px-3 text-center">
+                <div class="card-body">
+                  <i class="fas fa-id-card fa-2x text-success mb-3"></i>
+                  <h5 class="text-success font-weight-bold">帳戶概覽</h5>
+                  <p class="text-gray-700">快速總覽帳戶資訊與股票狀況。</p>
+                  <a href="{{ url_for('account_overview') }}" class="btn btn-success">前往</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>2025</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
