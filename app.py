@@ -32,5 +32,9 @@ def course():
 def practice():
     return render_template('practice.html')
 
+@app.route('/search_tag')
+def search_tag():
+    return render_template('search_tag.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
