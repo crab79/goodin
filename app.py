@@ -100,5 +100,34 @@ def realtime_list():
 def realtime_trade_history():
     return render_template('realtime_trade_history.html')
 
+# 個人資料頁
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+# @app.route('/profile')
+# def profile():
+#     user = {
+#         "member_id": "3024001",
+#         "name": "劉小明",
+#         "gender": "男",
+#         "phone": "0917-171717",
+#         "email": "www@gmail.com",
+#         "avatar": None  # 或指定圖片檔名，例如 'avatar.jpg'
+#     }
+#     return render_template('profile.html', user=user)
+
+@app.route('/edit_profile')
+def account_overview():
+    return render_template('account_overview.html')
+
+@app.route('/edit_profile')
+def edit_profile():
+    return render_template('edit_profile.html')
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')  
+
+
 if __name__ == '__main__':
     app.run(debug=True)
