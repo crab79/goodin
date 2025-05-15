@@ -116,7 +116,7 @@ def profile():
 #     }
 #     return render_template('profile.html', user=user)
 
-@app.route('/edit_profile')
+@app.route('/account_overview')
 def account_overview():
     return render_template('account_overview.html')
 
