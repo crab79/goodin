@@ -6,7 +6,23 @@ app = Flask(__name__,
 
 @app.route('/')
 def index():
-    return render_template('stock_class.html')
+    return render_template('index.html')
+
+@app.route('/visitor')
+def visitor():
+    return render_template('visitor.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+@app.route('/password')
+def password():
+    return render_template('password.html')
     
 @app.route('/stock_class')
 def stock_class():
@@ -35,6 +51,86 @@ def practice():
 @app.route('/search_tag')
 def search_tag():
     return render_template('search_tag.html')
+
+@app.route('/StockTrendChart')
+def StockTrendChart():
+    return render_template('StockTrendChart.html')
+
+@app.route('/chooseaccount')
+def chooseaccount():
+    return render_template('chooseAccount.html')
+
+@app.route('/exercise_index')
+def exercise_index():
+    return render_template('exercise_index.html')
+
+@app.route('/historical')
+def historical():
+    return render_template('historical.html')
+
+@app.route('/historical_function')
+def historical_function():
+    return render_template('historical_function.html')
+
+@app.route('/historical_trade_history')
+def historical_trade_history():
+    return render_template('historical_trade_history.html')
+
+@app.route('/pal_calc')
+def pal_calc():
+    return render_template('pal_calc.html')
+
+@app.route('/order_status')
+def order_status():
+    return render_template('order_status.html')
+
+@app.route('/realtime')
+def realtime():
+    return render_template('realtime.html')
+
+@app.route('/realtime_function')
+def realtime_function():
+    return render_template('realtime_function.html')
+
+@app.route('/realtime_list')
+def realtime_list():
+    return render_template('realtime_list.html')
+
+@app.route('/realtime_trade_history')
+def realtime_trade_history():
+    return render_template('realtime_trade_history.html')
+
+# 個人資料頁
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+# @app.route('/profile')
+# def profile():
+#     user = {
+#         "member_id": "3024001",
+#         "name": "劉小明",
+#         "gender": "男",
+#         "phone": "0917-171717",
+#         "email": "www@gmail.com",
+#         "avatar": None  # 或指定圖片檔名，例如 'avatar.jpg'
+#     }
+#     return render_template('profile.html', user=user)
+
+@app.route('/account_overview')
+def account_overview():
+    return render_template('account_overview.html')
+
+@app.route('/edit_profile')
+def edit_profile():
+    return render_template('edit_profile.html')
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')  
+
+@app.route('/course_v2')
+def course_v2():
+    return render_template('course_v2.html')  
 
 if __name__ == '__main__':
     app.run(debug=True)
