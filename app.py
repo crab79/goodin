@@ -44,10 +44,6 @@ def course_selection():
 def course():
     return render_template('course.html')
 
-@app.route('/practice')
-def practice():
-    return render_template('practice.html')
-
 @app.route('/search_tag')
 def search_tag():
     return render_template('search_tag.html')
@@ -128,9 +124,21 @@ def edit_profile():
 def settings():
     return render_template('settings.html')  
 
-@app.route('/course_v2')
-def course_v2():
-    return render_template('course_v2.html')  
+@app.route('/course7')
+def course7():
+    return render_template('course7.html')  
+
+@app.route('/practice7')
+def practice7():
+    return render_template('practice7.html')
+
+@app.route('/course1')
+def course1():
+    return render_template('course1.html')
+
+@app.route('/practice1')
+def practice1():
+    return render_template('practice1.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
