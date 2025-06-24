@@ -48,9 +48,9 @@ def course():
 def search_tag():
     return render_template('search_tag.html')
 
-@app.route('/StockTrendChart')
-def StockTrendChart():
-    return render_template('StockTrendChart.html')
+@app.route('/order_page')
+def order_page():
+    return render_template('order_page.html')
 
 @app.route('/chooseaccount')
 def chooseaccount():
