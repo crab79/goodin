@@ -140,5 +140,14 @@ def course1():
 def practice1():
     return render_template('practice1.html')
 
+@app.route('/course3')
+def course3():
+    return render_template('course3.html')
+
+@app.route('/practice3')
+def practice3():
+    return render_template('practice3.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
