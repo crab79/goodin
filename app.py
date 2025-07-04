@@ -8,9 +8,21 @@ app = Flask(__name__,
 def index():
     return render_template('index.html')
 
-@app.route('/visitor')
-def visitor():
-    return render_template('visitor.html')
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/member_home')
+def member_home():
+    return render_template('member_home.html')
+
+@app.route('/visitor_home')
+def visitor_home():
+    return render_template('visitor_home.html')
 
 @app.route('/login')
 def login():
@@ -20,10 +32,10 @@ def login():
 def register():
     return render_template('register.html')
 
-@app.route('/password')
-def password():
-    return render_template('password.html')
-    
+@app.route('/find_password')
+def find_password():
+    return render_template('find_password.html')
+
 @app.route('/stock_class')
 def stock_class():
     return render_template('stock_class.html')
