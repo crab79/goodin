@@ -176,5 +176,22 @@ def course4():
 def practice4():
     return render_template('practice4.html')
 
+@app.route('/course5')
+def course5():
+    return render_template('course5.html')
+
+@app.route('/practice5')
+def practice5():
+    return render_template('practice5.html')
+
+@app.route('/course6')
+def course6():
+    return render_template('course6.html')
+
+@app.route('/practice6')
+def practice6():
+    return render_template('practice6.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
