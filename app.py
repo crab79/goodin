@@ -60,9 +60,13 @@ def course():
 def search_tag():
     return render_template('search_tag.html')
 
-@app.route('/order_page')
-def order_page():
-    return render_template('order_page.html')
+@app.route('/order_page_realtime')
+def order_page_realtime():
+    return render_template('order_page_realtime.html')
+
+@app.route('/order_page_history')
+def order_page_history():
+    return render_template('order_page_history.html')
 
 @app.route('/chooseaccount')
 def chooseaccount():
