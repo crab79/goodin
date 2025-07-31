@@ -140,13 +140,6 @@ def edit_profile():
 def settings():
     return render_template('settings.html')  
 
-@app.route('/course7')
-def course7():
-    return render_template('course7.html')  
-
-@app.route('/practice7')
-def practice7():
-    return render_template('practice7.html')
 
 @app.route('/course1')
 def course1():
@@ -194,7 +187,35 @@ def course6():
 
 @app.route('/practice6')
 def practice6():
-    return render_template('practice6.html')
+    return render_template('practice7.html')
+
+@app.route('/course7')
+def course7():
+    return render_template('course7.html')  
+
+@app.route('/practice7')
+def practice7():
+    return render_template('practice7.html')
+
+@app.route('/course8')
+def course8():
+    return render_template('course8.html')
+
+@app.route('/practice8')
+def practice8():
+    return render_template('practice8.html')
+
+@app.route('/course9')
+def course9():
+    return render_template('course9.html')
+
+@app.route('/practice9')
+def practice9():
+    return render_template('practice9.html')
+
+@app.route('/inventory')
+def inventory():
+    return render_template('inventory.html')
 
 
 if __name__ == '__main__':
