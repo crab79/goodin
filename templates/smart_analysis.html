@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>智慧分析</title>
+  <link href="{{ url_for('static', filename='e5a9c1a0a33aefa9a57e.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='5e28aab59329b5f50217.css') }}" rel="stylesheet">
+  <script defer src="{{ url_for('static', filename='app.bundle.js') }}"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    .type-badge {
+      margin: 0 10px;
+      padding: 8px 18px;
+      font-weight: bold;
+      border-radius: 20px;
+      color: white;
+      font-size: 1rem;
+    }
+    .type-growth { background-color: #3cb371; }
+    .type-topic { background-color: #4aa5c1; }
+    .type-risk { background-color: #8654a3; }
+
+    .type-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .type-header h3 {
+      margin: 0;
+    }
+
+    .right-section {
+      background: #f8f9fc;
+      border-left: 2px solid #ddd;
+      padding: 20px;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .stock-category {
+      background-color: #f0f4f8;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+
+    .stock-group {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+
+    .type-column {
+      width: 30%;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .progress-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .progress {
+      height: 15px;
+      border-radius: 10px;
+    }
+
+    .growth-bg { background-color: #e0f3ea; }
+    .topic-bg { background-color: #e3f3f9; }
+    .risk-bg { background-color: #f1e5f6; }
+
+    .type-title {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .footer-center {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    .img-bottom {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .img-bottom img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body id="page-top">
+<div id="wrapper">
+  {% include 'sidebar.html' %}
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      {% include 'topbar.html' %}
+
+      <div class="container-fluid">
+        <div class="type-header">
+          <h3>您適合的股票類型可能是：</h3>
+          <span class="type-badge type-growth">高成長型</span>
+          <span class="type-badge type-topic">話題型</span>
+          <span class="type-badge type-risk">風險型</span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <!-- 左半部股票卡片區 -->
+          <div class="d-flex w-75 justify-content-around">
+            <!-- 高成長型 -->
+            <div class="type-column growth-bg">
+              <div class="type-title text-success">高成長型</div>
+              <div class="stock-group">
+                <div class="text-primary font-weight-bold">台積電 (2330.TW)</div>
+                <div>類股: 電子股</div>
+                <div>標籤: 高股利</div>
+              </div>
+              <div class="stock-group">
+                <div class="text-primary font-weight-bold">鴻海 (2317.TW)</div>
+                <div>類股: 電子股</div>
+                <div>標籤: 成長股</div>
+              </div>
+              <div class="img-bottom">
+                <img src="{{ url_for('static', filename='img/growth.png') }}" alt="高成長型圖示">
+              </div>
+            </div>
+
+            <!-- 話題型 -->
+            <div class="type-column topic-bg">
+              <div class="type-title text-info">話題型</div>
+              <div class="stock-group">
+                <div class="text-primary font-weight-bold">台積電 (2330.TW)</div>
+                <div>類股: 電子股</div>
+                <div>標籤: 高股利</div>
+              </div>
+              <div class="stock-group">
+                <div class="text-primary font-weight-bold">聯發科 (2454.TW)</div>
+                <div>類股: 通訊股</div>
+                <div>標籤: 熱門</div>
+              </div>
+              <div class="img-bottom">
+                <img src="{{ url_for('static', filename='img/topic.png') }}" alt="話題型圖示">
+              </div>
+            </div>
+
+            <!-- 風險型 -->
+            <div class="type-column risk-bg">
+              <div class="type-title" style="color:#8654a3;">風險型</div>
+              <div class="stock-group">
+                <div class="text-primary font-weight-bold">台積電 (2330.TW)</div>
+                <div>類股: 電子股</div>
+                <div>標籤: 高股利</div>
+              </div>
+              <div class="stock-group">
+                <div class="text-primary font-weight-bold">航運股</div>
+                <div>類股: 散裝航運</div>
+                <div>標籤: 波動高</div>
+              </div>
+              <div class="img-bottom">
+                <img src="{{ url_for('static', filename='img/risk.png') }}" alt="風險型圖示">
+              </div>
+            </div>
+          </div>
+
+          <!-- 右半部使用者特質 -->
+          <div class="w-25 right-section">
+            <h5 class="mb-4 text-secondary font-weight-bold">使用者的類型：</h5>
+
+            <div class="progress-wrapper">
+              <div class="progress-label">
+                <span>外向型 12%</span>
+                <span>內向型 88%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-info" style="width: 88%"></div>
+              </div>
+            </div>
+
+            <div class="progress-wrapper">
+              <div class="progress-label">
+                <span>直覺型 66%</span>
+                <span>現實型 34%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-warning" style="width: 66%"></div>
+              </div>
+            </div>
+
+            <div class="progress-wrapper">
+              <div class="progress-label">
+                <span>邏輯型 19%</span>
+                <span>感受型 81%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-success" style="width: 81%"></div>
+              </div>
+            </div>
+
+            <div class="progress-wrapper">
+              <div class="progress-label">
+                <span>計劃型 53%</span>
+                <span>展望型 47%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" style="width: 53%; background-color: #8654a3;"></div>
+              </div>
+            </div>
+
+            <div class="progress-wrapper">
+              <div class="progress-label">
+                <span>謹慎型 64%</span>
+                <span>冒險型 36%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-danger" style="width: 64%"></div>
+              </div>
+            </div>
+
+          </div> <!-- end right-section -->
+        </div> <!-- end row -->
+      </div> <!-- end container -->
+    </div> <!-- end content -->
+
+    <footer class="footer-center bg-white">
+      <div>2025</div>
+    </footer>
+  </div>
+</div>
+</body>
+</html>
