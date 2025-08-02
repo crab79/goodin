@@ -88,6 +88,10 @@ def account_overview():
 def edit_profile():
     return render_template('edit-profile.html')
 
+@app.route("/smart-analysis")
+def smart_analysis():
+    return render_template("smart_analysis.html")
+
 
 # 執行 Flask
 if __name__ == '__main__':
