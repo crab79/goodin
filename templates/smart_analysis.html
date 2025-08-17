@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+<title>智慧分析</title>
+<link href="{{ url_for('static', filename='/css/e5a9c1a0a33aefa9a57e.css') }}" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='/css/5e28aab59329b5f50217.css') }}" rel="stylesheet"/>
+<script defer="" src="{{ url_for('static', filename='js/app.bundle.js') }}"></script>
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/a076d05399.js"></script>
+<style>
+    .type-badge {
+      margin: 0 10px;
+      padding: 8px 18px;
+      font-weight: bold;
+      border-radius: 20px;
+      color: white;
+      font-size: 1rem;
+    }
+    .type-growth { background-color: #3cb371; }
+    .type-topic { background-color: #4aa5c1; }
+    .type-risk { background-color: #8654a3; }
+
+    .type-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .type-header h3 {
+      margin: 0;
+    }
+
+    .right-section {
+      background: #f8f9fc;
+      border-left: 2px solid #ddd;
+      padding: 20px;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .stock-category {
+      background-color: #f0f4f8;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+
+    .stock-group {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+
+    .type-column {
+      width: 30%;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .progress-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .progress {
+      height: 15px;
+      border-radius: 10px;
+    }
+
+    .growth-bg { background-color: #e0f3ea; }
+    .topic-bg { background-color: #e3f3f9; }
+    .risk-bg { background-color: #f1e5f6; }
+
+    .type-title {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .footer-center {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    .img-bottom {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .img-bottom img {
+      max-width: 100%;
+      height: auto;
+    }
+    /* 手機版樣式 */
+@media (max-width: 768px) {
+  .d-flex.justify-content-between {
+    flex-direction: column !important;
+  }
+  
+  .d-flex.w-75 {
+    width: 100% !important;
+    flex-direction: column !important;
+  }
+  
+  .type-column {
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+  
+  .w-25.right-section {
+    width: 100% !important;
+    border-left: none;
+    border-top: 2px solid #ddd;
+    margin-top: 20px;
+  }
+  
+  .type-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .type-badge {
+    margin: 5px;
+  }
+}
+  </style>
+</head>
+<body id="page-top">
+<div id="wrapper">
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<!-- Sidebar - Brand -->
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('member_home') }}">
+<div class="sidebar-brand-icon rotate-n-15">
+<i class="fas fa-laugh-wink"></i>
+</div>
+<div class="sidebar-brand-text mx-3">股引GOODIN</div>
+</a>
+<!-- Divider -->
+<hr class="sidebar-divider my-0"/>
+<!-- Nav Item - Dashboard -->
+<li class="nav-item active">
+<a class="nav-link" href="{{ url_for('index') }}">
+<i class="fas fa-fw fa-tachometer-alt"></i>
+<span>首頁</span></a>
+</li>
+<!-- Divider -->
+<hr class="sidebar-divider"/>
+<!-- Heading -->
+<div class="sidebar-heading">
+                功能
+            </div>
+<!-- 設定 -->
+<li class="nav-item">
+<a aria-controls="setting" aria-expanded="true" class="nav-link collapsed" data-target="#setting" data-toggle="collapse" href="#">
+<i class="fas fa-fw fa-cog"></i>
+<span>設定</span>
+</a>
+<div aria-labelledby="setting" class="collapse" data-parent="#accordionSidebar" id="setting">
+<div class="bg-white py-2 collapse-inner rounded">
+<h5 class="collapse-header">總覽</h5>
+<a class="collapse-item" href="{{ url_for('settings') }}">設定</a>
+<h5 class="collapse-header">分頁</h5>
+<a class="collapse-item" href="#">智慧分析</a>
+<a class="collapse-item" href="{{ url_for('profile') }}">個人資料</a>
+<a class="collapse-item" href="{{ url_for('account_overview') }}">帳戶概覽</a>
+</div>
+</div>
+</li>
+<!-- 教學首頁 -->
+<li class="nav-item">
+<a aria-controls="stockClass" aria-expanded="true" class="nav-link collapsed" data-target="#stockClass" data-toggle="collapse" href="#">
+<i class="fas fa-fw fa-wrench"></i>
+<span>教學首頁</span>
+</a>
+<div aria-labelledby="stockClass" class="collapse" data-parent="#accordionSidebar" id="stockClass">
+<div class="bg-white py-2 collapse-inner rounded">
+<h5 class="collapse-header">總覽</h5>
+<a class="collapse-item" href="{{ url_for('stock_class') }}">教學首頁</a>
+<h5 class="collapse-header">分頁</h5>
+<a class="collapse-item" href="{{ url_for('course_selection') }}">課程選單</a>
+<a class="collapse-item" href="{{ url_for('practice_selection') }}">練習選單</a>
+<a class="collapse-item" href="{{ url_for('learning_analysis') }}">學習成效</a>
+</div>
+</div>
+</li>
+<!-- 實戰模擬 -->
+<li class="nav-item">
+<a aria-controls="simulating" aria-expanded="true" class="nav-link collapsed" data-target="#simulating" data-toggle="collapse" href="#">
+<i class="fas fa-fw fa-wrench"></i>
+<span>實戰模擬</span>
+</a>
+<div aria-labelledby="simulating" class="collapse" data-parent="#accordionSidebar" id="simulating">
+<div class="bg-white py-2 collapse-inner rounded">
+<h5 class="collapse-header">總覽</h5>
+<a class="collapse-item" href="{{ url_for('exercise_index') }}">實戰模擬</a>
+<h5 class="collapse-header">分頁</h5>
+<a class="collapse-item" href="{{ url_for('historical') }}">歷史股市</a>
+<a class="collapse-item" href="{{ url_for('realtime') }}">即時股市</a>
+<a class="collapse-item" href="{{ url_for('realtime_function') }}">帳戶功能選單</a>
+</div>
+</div>
+</li>
+<!-- Sidebar Toggler (Sidebar) -->
+<div class="text-center d-none d-md-inline">
+<button class="rounded-circle border-0" id="sidebarToggle"></button>
+</div>
+</ul>
+<!-- End of Sidebar -->
+<div class="d-flex flex-column" id="content-wrapper">
+<div id="content">
+<!-- Topbar -->
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<!-- Sidebar Toggle (Topbar) -->
+<button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop">
+<i class="fa fa-bars"></i>
+</button>
+<!-- Topbar Search （即時資訊） -->
+<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+<div class="input-group">
+<input aria-describedby="basic-addon2" aria-label="Search" class="form-control bg-light border-0 small" placeholder="輸入股票名稱或代號..." type="text"/>
+<div class="input-group-append">
+<button class="btn btn-primary" type="button">
+<i class="fas fa-search fa-sm"></i>
+</button>
+</div>
+</div>
+</form>
+<!-- Topbar Navbar -->
+<ul class="navbar-nav ml-auto">
+<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+<li class="nav-item dropdown no-arrow d-sm-none">
+<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="searchDropdown" role="button">
+<i class="fas fa-search fa-fw"></i>
+</a>
+<!-- Dropdown - Messages -->
+<div aria-labelledby="searchDropdown" class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in">
+<form class="form-inline mr-auto w-100 navbar-search">
+<div class="input-group">
+<input aria-describedby="basic-addon2" aria-label="Search" class="form-control bg-light border-0 small" placeholder="輸入股票名稱或代號..." type="text"/>
+<div class="input-group-append">
+<button class="btn btn-primary" type="button">
+<i class="fas fa-search fa-sm"></i>
+</button>
+</div>
+</div>
+</form>
+</div>
+</li>
+<!-- Nav Item - Alerts -->
+<li class="nav-item dropdown no-arrow mx-1">
+<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="alertsDropdown" role="button">
+<i class="fas fa-bell fa-fw"></i>
+<!-- Counter - Alerts -->
+<span class="badge badge-danger badge-counter">3+</span>
+</a>
+<!-- Dropdown - Alerts -->
+<div aria-labelledby="alertsDropdown" class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in">
+<h6 class="dropdown-header">
+                                Alerts Center
+                            </h6>
+<a class="dropdown-item d-flex align-items-center" href="#">
+<div class="mr-3">
+<div class="icon-circle bg-primary">
+<i class="fas fa-file-alt text-white"></i>
+</div>
+</div>
+<div>
+<div class="small text-gray-500">December 12, 2019</div>
+<span class="font-weight-bold">A new monthly report is ready to download!</span>
+</div>
+</a>
+<a class="dropdown-item d-flex align-items-center" href="#">
+<div class="mr-3">
+<div class="icon-circle bg-success">
+<i class="fas fa-donate text-white"></i>
+</div>
+</div>
+<div>
+<div class="small text-gray-500">December 7, 2019</div>
+                                    $290.29 has been deposited into your account!
+                                </div>
+</a>
+<a class="dropdown-item d-flex align-items-center" href="#">
+<div class="mr-3">
+<div class="icon-circle bg-warning">
+<i class="fas fa-exclamation-triangle text-white"></i>
+</div>
+</div>
+<div>
+<div class="small text-gray-500">December 2, 2019</div>
+                                    Spending Alert: We've noticed unusually high spending for your account.
+                                </div>
+</a>
+<a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+</div>
+</li>
+<div class="topbar-divider d-none d-sm-block"></div>
+<!-- Nav Item - User Information -->
+<li class="nav-item dropdown no-arrow">
+<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="userDropdown" role="button">
+<span class="mr-2 d-none d-lg-inline text-gray-600 small">使用者</span>
+<img class="img-profile rounded-circle" src="{{ url_for('static', filename='images/undraw_profile.svg') }}"/>
+</a>
+<!-- Dropdown - User Information -->
+<div aria-labelledby="userDropdown" class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+<a class="dropdown-item" href="#">
+<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                切換顏色
+                            </a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" data-target="#logoutModal" data-toggle="modal" href="#">
+<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                登出
+                            </a>
+</div>
+</li>
+</ul>
+</nav>
+<!-- End of Topbar -->
+<div class="container-fluid">
+<div class="type-header">
+<h3>您適合的股票類型可能是：</h3>
+<span class="type-badge type-growth">高成長型</span>
+<span class="type-badge type-topic">話題型</span>
+<span class="type-badge type-risk">風險型</span>
+</div>
+<div class="d-flex justify-content-between">
+<!-- 左半部股票卡片區 -->
+<div class="d-flex w-75 justify-content-around">
+<!-- 高成長型 -->
+<div class="type-column growth-bg">
+<div class="type-title text-success">高成長型</div>
+<div class="stock-group">
+<div class="text-primary font-weight-bold">台積電 (2330.TW)</div>
+<div>類股: 電子股</div>
+<div>標籤: 高股利</div>
+</div>
+<div class="stock-group">
+<div class="text-primary font-weight-bold">鴻海 (2317.TW)</div>
+<div>類股: 電子股</div>
+<div>標籤: 成長股</div>
+</div>
+<div class="img-bottom">
+<img alt="高成長型圖示" src="{{ url_for('static', filename='images/growth.png') }}"/>
+</div>
+</div>
+<!-- 話題型 -->
+<div class="type-column topic-bg">
+<div class="type-title text-info">話題型</div>
+<div class="stock-group">
+<div class="text-primary font-weight-bold">台積電 (2330.TW)</div>
+<div>類股: 電子股</div>
+<div>標籤: 高股利</div>
+</div>
+<div class="stock-group">
+<div class="text-primary font-weight-bold">聯發科 (2454.TW)</div>
+<div>類股: 通訊股</div>
+<div>標籤: 熱門</div>
+</div>
+<div class="img-bottom">
+<img alt="話題型圖示" src="{{ url_for('static', filename='images/topic.png') }}"/>
+</div>
+</div>
+<!-- 風險型 -->
+<div class="type-column risk-bg">
+<div class="type-title" style="color:#8654a3;">風險型</div>
+<div class="stock-group">
+<div class="text-primary font-weight-bold">台積電 (2330.TW)</div>
+<div>類股: 電子股</div>
+<div>標籤: 高股利</div>
+</div>
+<div class="stock-group">
+<div class="text-primary font-weight-bold">航運股</div>
+<div>類股: 散裝航運</div>
+<div>標籤: 波動高</div>
+</div>
+<div class="img-bottom">
+<img alt="風險型圖示" src="{{ url_for('static', filename='images/risk.png') }}"/>
+</div>
+</div>
+</div>
+<!-- 右半部使用者特質 -->
+<div class="w-25 right-section">
+<h5 class="mb-4 text-secondary font-weight-bold">使用者的類型：</h5>
+<div class="progress-wrapper">
+<div class="progress-label">
+<span>外向型 12%</span>
+<span>內向型 88%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-info" style="width: 88%"></div>
+</div>
+</div>
+<div class="progress-wrapper">
+<div class="progress-label">
+<span>直覺型 66%</span>
+<span>現實型 34%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-warning" style="width: 66%"></div>
+</div>
+</div>
+<div class="progress-wrapper">
+<div class="progress-label">
+<span>邏輯型 19%</span>
+<span>感受型 81%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-success" style="width: 81%"></div>
+</div>
+</div>
+<div class="progress-wrapper">
+<div class="progress-label">
+<span>計劃型 53%</span>
+<span>展望型 47%</span>
+</div>
+<div class="progress">
+<div class="progress-bar" style="width: 53%; background-color: #8654a3;"></div>
+</div>
+</div>
+<div class="progress-wrapper">
+<div class="progress-label">
+<span>謹慎型 64%</span>
+<span>冒險型 36%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-danger" style="width: 64%"></div>
+</div>
+</div>
+</div> <!-- end right-section -->
+</div> <!-- end row -->
+</div> <!-- end container -->
+</div> <!-- end content -->
+<footer class="footer-center bg-white">
+<div>2025</div>
+</footer>
+</div>
+</div>
+</body>
+</html>

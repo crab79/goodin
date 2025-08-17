@@ -1,16 +1,47 @@
 from flask import Flask, render_template
+from api.course1_api import course1_api
+from api.course2_api import course2_api
+from api.course3_api import course3_api
+from api.course4_api import course4_api
+from api.course5_api import course5_api
+from api.course6_api import course6_api
+from api.course7_api import course7_api
+from api.course8_api import course8_api
+from api.course9_api import course9_api
 
 app = Flask(__name__, 
             static_folder='static',  # 這裡設為你的 static 資料夾路徑
             template_folder='templates')  # 這裡設為你的 templates 資料夾路徑
 
+app.register_blueprint(course1_api)
+app.register_blueprint(course2_api)
+app.register_blueprint(course3_api)
+app.register_blueprint(course4_api)
+app.register_blueprint(course5_api)
+app.register_blueprint(course6_api)
+app.register_blueprint(course7_api)
+app.register_blueprint(course8_api)
+app.register_blueprint(course9_api)
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/visitor')
-def visitor():
-    return render_template('visitor.html')
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/member_home')
+def member_home():
+    return render_template('member_home.html')
+
+@app.route('/visitor_home')
+def visitor_home():
+    return render_template('visitor_home.html')
 
 @app.route('/login')
 def login():
@@ -20,10 +51,10 @@ def login():
 def register():
     return render_template('register.html')
 
-@app.route('/password')
-def password():
-    return render_template('password.html')
-    
+@app.route('/find_password')
+def find_password():
+    return render_template('find_password.html')
+
 @app.route('/stock_class')
 def stock_class():
     return render_template('stock_class.html')
@@ -44,17 +75,17 @@ def course_selection():
 def course():
     return render_template('course.html')
 
-@app.route('/practice')
-def practice():
-    return render_template('practice.html')
-
 @app.route('/search_tag')
 def search_tag():
     return render_template('search_tag.html')
 
-@app.route('/StockTrendChart')
-def StockTrendChart():
-    return render_template('StockTrendChart.html')
+@app.route('/order_page_realtime')
+def order_page_realtime():
+    return render_template('order_page_realtime.html')
+
+@app.route('/order_page_history')
+def order_page_history():
+    return render_template('order_page_history.html')
 
 @app.route('/chooseaccount')
 def chooseaccount():
@@ -127,6 +158,87 @@ def edit_profile():
 @app.route('/settings')
 def settings():
     return render_template('settings.html')  
+
+
+@app.route('/course1')
+def course1():
+    return render_template('course1.html')
+
+@app.route('/practice1')
+def practice1():
+    return render_template('practice1.html')
+
+@app.route('/course2')
+def course2():
+    return render_template('course2.html')
+
+@app.route('/practice2')
+def practice2():
+    return render_template('practice2.html')
+
+@app.route('/course3')
+def course3():
+    return render_template('course3.html')
+
+@app.route('/practice3')
+def practice3():
+    return render_template('practice3.html')
+
+@app.route('/course4')
+def course4():
+    return render_template('course4.html')
+
+@app.route('/practice4')
+def practice4():
+    return render_template('practice4.html')
+
+@app.route('/course5')
+def course5():
+    return render_template('course5.html')
+
+@app.route('/practice5')
+def practice5():
+    return render_template('practice5.html')
+
+@app.route('/course6')
+def course6():
+    return render_template('course6.html')
+
+@app.route('/practice6')
+def practice6():
+    return render_template('practice7.html')
+
+@app.route('/course7')
+def course7():
+    return render_template('course7.html')  
+
+@app.route('/practice7')
+def practice7():
+    return render_template('practice7.html')
+
+@app.route('/course8')
+def course8():
+    return render_template('course8.html')
+
+@app.route('/practice8')
+def practice8():
+    return render_template('practice8.html')
+
+@app.route('/course9')
+def course9():
+    return render_template('course9.html')
+
+@app.route('/practice9')
+def practice9():
+    return render_template('practice9.html')
+
+@app.route('/inventory')
+def inventory():
+    return render_template('inventory.html')
+
+@app.route('/smart_analysis')
+def smart_analysis():
+    return render_template('smart_analysis.html')
 
 
 if __name__ == '__main__':
