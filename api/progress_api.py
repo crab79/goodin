@@ -57,11 +57,12 @@ fake_user_practice_progress = [
     
     # 課程8: KD指標（Stochastic Oscillator）
     {'user_id': 1, 'exercise_id': 81, 'course_id': 8, 'completed_at': '2025-08-08', 'total_questions': 6, 'correct_answers': 5, 'accuracy_rate': 83.3},
+    
 ]
 fake_practice_errors = [
     # 課程2錯誤範例: 基本面分析概述
     {
-        'practice_id': 3,
+        'practice_id': 21,  # 對應 exercise_id
         'user_id': 1,
         'question_id': 201,
         'question_text': '基本面分析主要關注哪些方面？',
@@ -72,7 +73,7 @@ fake_practice_errors = [
     },
     # 課程3錯誤範例: K線圖和價格型態
     {
-        'practice_id': 4,
+        'practice_id': 32,  # 對應 exercise_id
         'user_id': 1,
         'question_id': 301,
         'question_text': 'K線的實體部分代表什麼？',
@@ -83,7 +84,7 @@ fake_practice_errors = [
     },
     # 課程4錯誤範例: 簡單移動平均線（SMA）
     {
-        'practice_id': 5,
+        'practice_id': 41,  # 對應 exercise_id
         'user_id': 1,
         'question_id': 401,
         'question_text': 'SMA 的計算方式是什麼？',
@@ -92,9 +93,19 @@ fake_practice_errors = [
         'correct_option_code': 'A',
         'correct_option_text': '算術平均',
     },
+    {
+        'practice_id': 41,  # 同一個練習的另一個錯誤
+        'user_id': 1,
+        'question_id': 402,
+        'question_text': 'SMA 5 和 SMA 20 哪個反應比較快？',
+        'user_option_code': 'B',
+        'user_option_text': 'SMA 20',
+        'correct_option_code': 'A',
+        'correct_option_text': 'SMA 5',
+    },
     # 課程5錯誤範例: 相對強弱指數（RSI）
     {
-        'practice_id': 6,
+        'practice_id': 51,  # 對應 exercise_id
         'user_id': 1,
         'question_id': 501,
         'question_text': 'RSI 超過 70 通常表示什麼？',
@@ -105,7 +116,7 @@ fake_practice_errors = [
     },
     # 課程6錯誤範例: 布林帶（Bollinger Bands）
     {
-        'practice_id': 7,
+        'practice_id': 61,  # 對應 exercise_id
         'user_id': 1,
         'question_id': 601,
         'question_text': '布林帶的組成包括哪些？',
@@ -114,58 +125,15 @@ fake_practice_errors = [
         'correct_option_code': 'A',
         'correct_option_text': '上軌、中軌、下軌',
     },
-    # 課程7錯誤範例: MACD
     {
-        'practice_id': 8,
+        'practice_id': 61,  # 同一個練習的另一個錯誤
         'user_id': 1,
-        'question_id': 701,
-        'question_text': 'MACD 指標的交叉代表什麼？',
+        'question_id': 602,
+        'question_text': '布林帶的標準差是多少？',
         'user_option_code': 'A',
-        'user_option_text': '黃金交叉代表買進訊號',
+        'user_option_text': '1',
         'correct_option_code': 'B',
-        'correct_option_text': '死亡交叉代表賣出訊號',
-    },
-    {
-        'practice_id': 8,
-        'user_id': 1,
-        'question_id': 702,
-        'question_text': 'MACD柱狀圖變化代表什麼？',
-        'user_option_code': 'C',
-        'user_option_text': '成交量變化',
-        'correct_option_code': 'D',
-        'correct_option_text': '動能強弱變化',
-    },
-    # 課程8錯誤範例: KD指標（Stochastic Oscillator）
-    {
-        'practice_id': 9,
-        'user_id': 1,
-        'question_id': 801,
-        'question_text': 'KD 指標的 K 線高於 D 線時，通常代表什麼？',
-        'user_option_code': 'C',
-        'user_option_text': '短期趨勢強於長期',
-        'correct_option_code': 'D',
-        'correct_option_text': '可能出現超買訊號',
-    },
-    {
-        'practice_id': 9,
-        'user_id': 1,
-        'question_id': 802,
-        'question_text': 'KD指標超過80代表什麼？',
-        'user_option_code': 'A',
-        'user_option_text': '超賣訊號',
-        'correct_option_code': 'B',
-        'correct_option_text': '超買訊號',
-    },
-    # 課程9錯誤範例: 乖離率（BIAS）
-    {
-        'practice_id': 10,
-        'user_id': 1,
-        'question_id': 901,
-        'question_text': '乖離率為正值代表什麼？',
-        'user_option_code': 'B',
-        'user_option_text': '股價低於移動平均線',
-        'correct_option_code': 'A',
-        'correct_option_text': '股價高於移動平均線',
+        'correct_option_text': '2',
     },
 ]
 
@@ -460,7 +428,8 @@ def practice_analysis(user_id):
         # 錯誤詳情（格式化成前端需要的欄位）
         practice['errors'] = []
         for e in fake_practice_errors:
-            if e['practice_id'] == practice['id']:
+            # 使用 exercise_id 來對應錯誤資料
+            if e['practice_id'] == practice['exercise_id'] and e['user_id'] == user_id:
                 practice['errors'].append({
                     'question_id': e.get('question_id'),
                     'question_text': e.get('question_text'),
@@ -522,6 +491,144 @@ def calculate_streak(study_dates):
         else:
             break
     return streak
+
+# 首頁 - 今日學習成果
+@app.route('/api/today_learning/<int:user_id>', methods=['GET'])
+def today_learning(user_id):
+    try:
+        today_str = datetime.now().strftime('%Y-%m-%d')
+        
+        # 查找今日完成的課程
+        today_courses = [
+            p for p in fake_user_course_progress 
+            if p['user_id'] == user_id and p['completed_at'] == today_str
+        ]
+        
+        # 查找今日完成的練習
+        today_practices = [
+            p for p in fake_user_practice_progress 
+            if p['user_id'] == user_id and p['completed_at'].startswith(today_str)
+        ]
+        
+        # 獲取最新完成的課程資訊
+        latest_course = None
+        if today_courses:
+            latest_course_id = today_courses[-1]['course_id']
+            course_info = next((c for c in fake_courses if c['course_id'] == latest_course_id), None)
+            if course_info:
+                latest_course = {
+                    'course_id': latest_course_id,
+                    'title': course_info['title'],
+                    'completed_at': today_courses[-1]['completed_at']
+                }
+        
+        # 獲取最新完成的練習資訊
+        latest_practice = None
+        if today_practices:
+            latest_practice_data = today_practices[-1]
+            course_info = next((c for c in fake_courses if c['course_id'] == latest_practice_data['course_id']), None)
+            if course_info:
+                latest_practice = {
+                    'course_id': latest_practice_data['course_id'],
+                    'course_title': course_info['title'],
+                    'accuracy_rate': latest_practice_data['accuracy_rate'],
+                    'completed_at': latest_practice_data['completed_at']
+                }
+        
+        # 決定要顯示的內容
+        message = "今天還沒有學習記錄，開始你的學習之旅吧！📚"
+        
+        if latest_course and latest_practice:
+            # 兩者都有，顯示最新的
+            if latest_course['completed_at'] >= latest_practice['completed_at'][:10]:
+                message = f"完成「第{latest_course['course_id']}課-{latest_course['title']}」，好棒棒！🎉"
+            else:
+                message = f"完成「第{latest_practice['course_id']}課」練習，正確率 {latest_practice['accuracy_rate']:.0f}%！🎯"
+        elif latest_course:
+            message = f"完成「第{latest_course['course_id']}課-{latest_course['title']}」，好棒棒！🎉"
+        elif latest_practice:
+            message = f"完成「第{latest_practice['course_id']}課」練習，正確率 {latest_practice['accuracy_rate']:.0f}%！🎯"
+        
+        return jsonify({
+            'status': 'success',
+            'message': message,
+            'today_courses_count': len(today_courses),
+            'today_practices_count': len(today_practices),
+            'latest_course': latest_course,
+            'latest_practice': latest_practice
+        })
+        
+    except Exception as e:
+        print(f"獲取今日學習成果時發生錯誤: {str(e)}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# 首頁 - 課程進度統計
+@app.route('/api/course_progress/<int:user_id>', methods=['GET'])
+def course_progress(user_id):
+    try:
+        # 獲取用戶完成的課程
+        completed_courses = [
+            p for p in fake_user_course_progress 
+            if p['user_id'] == user_id
+        ]
+        
+        total_courses = len(fake_courses)
+        completed_count = len(completed_courses)
+        remaining_count = total_courses - completed_count
+        
+        # 計算完成百分比
+        completion_percentage = round((completed_count / total_courses) * 100, 1) if total_courses > 0 else 0
+        
+        # 準備圓餅圖資料
+        chart_data = {
+            'labels': ['已完成', '未完成'],
+            'data': [completed_count, remaining_count],
+            'colors': ['#4e73df', '#1cc88a'],  # 藍色代表已完成，綠色代表未完成
+            'total': total_courses,
+            'completed': completed_count,
+            'remaining': remaining_count,
+            'percentage': completion_percentage
+        }
+        
+        # 獲取完成的課程詳細資訊
+        completed_course_details = []
+        for progress in completed_courses:
+            course_info = next((c for c in fake_courses if c['course_id'] == progress['course_id']), None)
+            if course_info:
+                completed_course_details.append({
+                    'course_id': progress['course_id'],
+                    'title': course_info['title'],
+                    'completed_at': progress['completed_at']
+                })
+        
+        # 獲取下一個要學習的課程
+        next_course = None
+        if remaining_count > 0:
+            completed_course_ids = [p['course_id'] for p in completed_courses]
+            for course in fake_courses:
+                if course['course_id'] not in completed_course_ids:
+                    next_course = {
+                        'course_id': course['course_id'],
+                        'title': course['title']
+                    }
+                    break
+        
+        return jsonify({
+            'status': 'success',
+            'chart_data': chart_data,
+            'completed_courses': completed_course_details,
+            'next_course': next_course,
+            'summary': {
+                'total_courses': total_courses,
+                'completed_count': completed_count,
+                'remaining_count': remaining_count,
+                'completion_percentage': completion_percentage
+            }
+        })
+        
+    except Exception as e:
+        print(f"獲取課程進度統計時發生錯誤: {str(e)}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 if __name__ == '__main__':
  app.run(debug=True, port=5001)
