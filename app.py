@@ -1,8 +1,19 @@
 from flask import Flask, render_template
+from routes.orders import order_bp
+from routes.account_overview import account_overview_bp
+from routes.trade_history import trade_history_bp
+from routes.holdings import holding_bp
+from routes.profit_loss import profit_loss_bp
 
 app = Flask(__name__, 
             static_folder='static',  # 這裡設為你的 static 資料夾路徑
             template_folder='templates')  # 這裡設為你的 templates 資料夾路徑
+
+app.register_blueprint(order_bp)
+app.register_blueprint(account_overview_bp)
+app.register_blueprint(trade_history_bp)
+app.register_blueprint(holding_bp)
+app.register_blueprint(profit_loss_bp)
 
 @app.route('/')
 def index():
