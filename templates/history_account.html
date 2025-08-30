@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+  <meta name="description" content="歷史帳號選擇頁面" />
+  <meta name="author" content="" />
+  <title>歷史帳號選擇</title>
+
+  <link href="{{ url_for('static', filename='e5a9c1a0a33aefa9a57e.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='5e28aab59329b5f50217.css') }}" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet" />
+  <script defer src="{{ url_for('static', filename='app.bundle.js') }}"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body id="page-top">
+  <div id="wrapper">
+
+    {% include 'sidebar.html' %}
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+
+        {% include 'topbar.html' %}
+
+        <!-- 主頁內容 -->
+        <div class="container-fluid">
+          <h1 class="h3 mb-4 text-gray-800">歷史帳號選擇</h1>
+
+          <!-- 有帳號版本 -->
+          <div id="account-list" style="display:none;">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-users"></i> 選擇歷史帳號
+                </h6>
+              </div>
+              <div class="card-body">
+                <p class="text-gray-700">請選擇一個帳號以查詢歷史股市資料：</p>
+                <select class="form-control mb-3">
+                  <option>帳號 A</option>
+                </select>
+                <button class="btn btn-primary">確認</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 沒有帳號版本 -->
+          <div id="account-form" style="display:none;">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">
+                  <i class="fas fa-user-plus"></i> 建立新帳號
+                </h6>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <label for="username">帳號名稱</label>
+                    <input type="text" class="form-control" id="username" placeholder="輸入帳號名稱">
+                  </div>
+                  <button type="submit" class="btn btn-success">建立帳號</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>2025</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- JS 判斷邏輯 -->
+  <script>
+    // 假設後端查詢結果：true = 有帳號，false = 沒帳號
+    let hasAccount = true;  
+
+    if (hasAccount) {
+      document.getElementById("account-list").style.display = "block";
+    } else {
+      document.getElementById("account-form").style.display = "block";
+    }
+  </script>
+</body>
+</html>
