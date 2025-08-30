@@ -92,6 +92,10 @@ def edit_profile():
 def smart_analysis():
     return render_template("smart_analysis.html")
 
+@app.route("/history_account")
+def history_account():
+    return render_template("history_account.html")
+
 
 # 執行 Flask
 if __name__ == '__main__':
