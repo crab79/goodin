@@ -1,10 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Blueprint, request, jsonify
 from datetime import datetime, timedelta
 from collections import defaultdict
-from flask_cors import CORS
 
-app = Flask(__name__)
-CORS(app)
+progress_api = Blueprint('progress_api', __name__)
 today = datetime.now()
 
 
@@ -138,7 +136,7 @@ fake_practice_errors = [
 ]
 
 # 完成課程（接收實際課程完成資料）
-@app.route('/api/complete_course', methods=['POST'])
+@progress_api.route('/api/complete_course', methods=['POST'])
 def complete_course():
     try:
         data = request.get_json()
@@ -187,7 +185,7 @@ def complete_course():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 # 完成練習（接收實際測驗結果）
-@app.route('/api/complete_practice', methods=['POST'])
+@progress_api.route('/api/complete_practice', methods=['POST'])
 def complete_practice():
     try:
         data = request.get_json()
@@ -260,7 +258,7 @@ def complete_practice():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 # 學習成效分析總覽（假資料）
-@app.route('/api/learning_analytics/<int:user_id>', methods=['GET'])
+@progress_api.route('/api/learning_analytics/<int:user_id>', methods=['GET'])
 def learning_analytics(user_id):
     completed_courses = [p for p in fake_user_course_progress if p['user_id'] == user_id]
     total_courses = len(fake_courses)
@@ -336,7 +334,7 @@ def learning_analytics(user_id):
     })
 
 # 獲取特定課程詳細資訊
-@app.route('/api/course_info/<int:course_id>', methods=['GET'])
+@progress_api.route('/api/course_info/<int:course_id>', methods=['GET'])
 def get_course_info(course_id):
     course = next((c for c in fake_courses if c['course_id'] == course_id), None)
     if not course:
@@ -357,7 +355,7 @@ def get_course_info(course_id):
     })
 
 # 獲取用戶特定課程的學習狀態
-@app.route('/api/user_course_status/<user_id>/<int:course_id>', methods=['GET'])
+@progress_api.route('/api/user_course_status/<user_id>/<int:course_id>', methods=['GET'])
 def get_user_course_status(user_id, course_id):
     # 如果 user_id 是 "default_user"，轉換為數字 1
     if user_id == "default_user":
@@ -408,7 +406,7 @@ def get_user_course_status(user_id, course_id):
     })
 
 # 獲取所有課程列表
-@app.route('/api/courses', methods=['GET'])
+@progress_api.route('/api/courses', methods=['GET'])
 def get_all_courses():
     return jsonify({
         'courses': fake_courses,
@@ -416,7 +414,7 @@ def get_all_courses():
     })
 
 # 課堂練習結果分析（假資料）
-@app.route('/api/practice_analysis/<int:user_id>', methods=['GET'])
+@progress_api.route('/api/practice_analysis/<int:user_id>', methods=['GET'])
 def practice_analysis(user_id):
     user_practices = [p.copy() for p in fake_user_practice_progress if p['user_id'] == user_id]
     for practice in user_practices:
@@ -446,7 +444,7 @@ def practice_analysis(user_id):
     return jsonify({'practices': user_practices})
 
 # 學習建議（假資料）
-@app.route('/api/learning_suggestions/<int:user_id>', methods=['GET'])
+@progress_api.route('/api/learning_suggestions/<int:user_id>', methods=['GET'])
 def learning_suggestions(user_id):
     user_practices = [p for p in fake_user_practice_progress if p['user_id'] == user_id]
     # 各課程平均正確率
@@ -493,7 +491,7 @@ def calculate_streak(study_dates):
     return streak
 
 # 首頁 - 今日學習成果
-@app.route('/api/today_learning/<int:user_id>', methods=['GET'])
+@progress_api.route('/api/today_learning/<int:user_id>', methods=['GET'])
 def today_learning(user_id):
     try:
         today_str = datetime.now().strftime('%Y-%m-%d')
@@ -563,7 +561,7 @@ def today_learning(user_id):
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 # 首頁 - 課程進度統計
-@app.route('/api/course_progress/<int:user_id>', methods=['GET'])
+@progress_api.route('/api/course_progress/<int:user_id>', methods=['GET'])
 def course_progress(user_id):
     try:
         # 獲取用戶完成的課程
@@ -629,6 +627,3 @@ def course_progress(user_id):
     except Exception as e:
         print(f"獲取課程進度統計時發生錯誤: {str(e)}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
-
-if __name__ == '__main__':
- app.run(debug=True, port=5001)

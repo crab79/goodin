@@ -1,4 +1,8 @@
+import os
 from flask import Flask, render_template
+from flask import request
+from flask_cors import CORS
+from dotenv import load_dotenv
 from api.course1_api import course1_api
 from api.course2_api import course2_api
 from api.course3_api import course3_api
@@ -8,10 +12,26 @@ from api.course6_api import course6_api
 from api.course7_api import course7_api
 from api.course8_api import course8_api
 from api.course9_api import course9_api
+from api.choose_account import choose_account_api
+from api.progress_api import progress_api
+from api.daily_news import daily_news_api
+
+# 根據環境載入對應的 .env 檔案
+env = os.getenv('FLASK_ENV', 'development')
+if env == 'production':
+    load_dotenv('.env.production')
+else:
+    load_dotenv('.env')
 
 app = Flask(__name__, 
-            static_folder='static',  # 這裡設為你的 static 資料夾路徑
-            template_folder='templates')  # 這裡設為你的 templates 資料夾路徑
+            static_folder='static',
+            template_folder='templates')
+
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
+
+CORS(app)
+
 
 app.register_blueprint(course1_api)
 app.register_blueprint(course2_api)
@@ -22,6 +42,9 @@ app.register_blueprint(course6_api)
 app.register_blueprint(course7_api)
 app.register_blueprint(course8_api)
 app.register_blueprint(course9_api)
+app.register_blueprint(choose_account_api)
+app.register_blueprint(progress_api)
+app.register_blueprint(daily_news_api)
 
 @app.route('/')
 def index():
@@ -87,13 +110,13 @@ def order_page_realtime():
 def order_page_history():
     return render_template('order_page_history.html')
 
-@app.route('/chooseaccount')
-def chooseaccount():
-    return render_template('chooseAccount.html')
-
 @app.route('/exercise_index')
 def exercise_index():
     return render_template('exercise_index.html')
+
+@app.route('/history_account')
+def history_account():
+    return render_template('history_account.html')
 
 @app.route('/historical')
 def historical():
@@ -240,6 +263,15 @@ def inventory():
 def smart_analysis():
     return render_template('smart_analysis.html')
 
+@app.route('/choose_account')
+@app.route('/choose_account.html')
+def choose_account():
+    account_type = request.args.get('type', 'default')
+    return render_template('choose_account.html', account_type=account_type)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(
+        host='0.0.0.0',  # 允許外部訪問
+        port=8000,       
+        debug=True
+    )
