@@ -15,6 +15,7 @@ from api.course9_api import course9_api
 from api.choose_account import choose_account_api
 from api.progress_api import progress_api
 from api.daily_news import daily_news_api
+from api.search_tags import search_tags_api
 
 # 根據環境載入對應的 .env 檔案
 env = os.getenv('FLASK_ENV', 'development')
@@ -45,6 +46,8 @@ app.register_blueprint(course9_api)
 app.register_blueprint(choose_account_api)
 app.register_blueprint(progress_api)
 app.register_blueprint(daily_news_api)
+app.register_blueprint(search_tags_api)
+
 
 @app.route('/')
 def index():
@@ -97,10 +100,6 @@ def course_selection():
 @app.route('/course')
 def course():
     return render_template('course.html')
-
-@app.route('/search_tag')
-def search_tag():
-    return render_template('search_tag.html')
 
 @app.route('/order_page_realtime')
 def order_page_realtime():
