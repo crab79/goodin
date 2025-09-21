@@ -39,7 +39,7 @@ def build_where_clause(conditions, allowed_fields):
 @search_tags_api.route('/api/search_tags', methods=['POST'])
 def search_tags():
 	"""
-	1. 先查 stockdb.financial_indicators 取得符合條件的 stock_code
+	1. 先查 goodin.financial_indicators 取得符合條件的 stock_code
 	2. 再查 goodin.stocks 用 symbol 查詢，回傳所有欄位
 	"""
 	try:
@@ -73,9 +73,9 @@ def search_tags():
 			conn2.close()
 			return jsonify({'ok': True, 'data': results, 'latest_date': None})
 
-		# 1. 查 stockdb.financial_indicators
-		stockdb_config = DB_CONFIG.copy()
-		stockdb_config['database'] = 'stockdb'
+		# 1. 查 goodin.financial_indicators
+		goodin_config = DB_CONFIG.copy()
+		goodin_config['database'] = 'goodin'
 		allowed_fields = [
 			'id', 'stock_code', 'stock_name', 'year_month',
 			'revenue_growth_rate', 'net_profit_margin', 'roe_after_tax',
@@ -83,7 +83,7 @@ def search_tags():
 			'created_at', 'updated_at'
 		]
 		where_clause, params = build_where_clause(conditions, allowed_fields)
-		conn1 = mysql.connector.connect(**stockdb_config)
+		conn1 = mysql.connector.connect(**goodin_config)
 		cursor1 = conn1.cursor(dictionary=True)
 
 		# 查詢最新 year_month
@@ -126,9 +126,9 @@ def search_tags():
 		# 若發生例外，也查詢一次最新日期
 		latest_date = None
 		try:
-			stockdb_config = DB_CONFIG.copy()
-			stockdb_config['database'] = 'stockdb'
-			conn1 = mysql.connector.connect(**stockdb_config)
+			goodin_config = DB_CONFIG.copy()
+			goodin_config['database'] = 'goodin'
+			conn1 = mysql.connector.connect(**goodin_config)
 			cursor1 = conn1.cursor(dictionary=True)
 			cursor1.execute("SELECT year_month FROM financial_indicators ORDER BY year_month DESC LIMIT 1")
 			latest_date_row = cursor1.fetchone()

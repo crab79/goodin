@@ -18,7 +18,8 @@ def get_simulated_accounts():
     """
     try:
         # 從 session 取得 user_id
-        user_id = session.get('user_id')
+        # user_id = session.get('user_id')
+        user_id = "18"
         if not user_id:
             return jsonify({
                 'ok': False,
@@ -37,7 +38,7 @@ def get_simulated_accounts():
         # 查詢使用者的模擬帳號
         query = """
             SELECT account_id, user_id, account_type, cash, account_name, created_at
-            FROM simulated_account 
+            FROM simulated_accounts 
             WHERE user_id = %s
             ORDER BY created_at DESC
         """
@@ -89,6 +90,7 @@ def create_simulated_account():
         data = request.get_json()
         
         # 驗證必要欄位
+
         required_fields = ['account_name', 'account_type', 'initial_cash']
         for field in required_fields:
             if field not in data or not data[field]:
@@ -96,58 +98,77 @@ def create_simulated_account():
                     'ok': False,
                     'message': f'缺少必要欄位: {field}'
                 }), 400
-        
+
         account_name = data['account_name'].strip()
         account_type = data['account_type']
         initial_cash = float(data['initial_cash'])
-        
+
         # 驗證帳號類型
         if account_type not in ['realtime', 'history']:
             return jsonify({
                 'ok': False,
                 'message': '無效的帳號類型'
             }), 400
-        
+
         # 驗證初始資金
         if initial_cash < 1000 or initial_cash > 10000000:
             return jsonify({
                 'ok': False,
                 'message': '初始資金必須在 1,000 到 10,000,000 之間'
             }), 400
-        
+
         # 驗證帳號名稱長度
         if len(account_name) > 50:
             return jsonify({
                 'ok': False,
                 'message': '帳號名稱不能超過 50 個字元'
             }), 400
-        
+
+        # 處理 simulation_date（僅 history 帳號可帶）
+        simulation_date = None
+        if account_type == 'history':
+            simulation_date = data.get('simulation_date')
+            if not simulation_date:
+                return jsonify({
+                    'ok': False,
+                    'message': '歷史帳號必須選擇模擬日期'
+                }), 400
+            # 驗證日期格式 yyyy-mm-dd
+            try:
+                datetime.strptime(simulation_date, '%Y-%m-%d')
+            except Exception:
+                return jsonify({
+                    'ok': False,
+                    'message': '模擬日期格式錯誤，請選擇正確日期'
+                }), 400
+
         # 從 session 取得 user_id
-        user_id = session.get('user_id')
+        # user_id = session.get('user_id')
+        user_id = "18"
         if not user_id:
             return jsonify({
                 'ok': False,
                 'message': '使用者未登入'
             }), 401
-        
+
         conn = get_db_connection()
         if not conn:
             return jsonify({
                 'ok': False,
                 'message': '資料庫連接失敗'
             }), 500
-        
+
         cursor = conn.cursor()
-        
+
         # 檢查帳號名稱是否已存在（同一使用者）
         check_query = """
             SELECT COUNT(*) as count 
-            FROM simulated_account 
+            FROM simulated_accounts 
             WHERE user_id = %s AND account_name = %s
         """
         cursor.execute(check_query, (user_id, account_name))
         result = cursor.fetchone()
-        
+
         if result[0] > 0:
             cursor.close()
             conn.close()
@@ -155,25 +176,32 @@ def create_simulated_account():
                 'ok': False,
                 'message': '帳號名稱已存在，請使用其他名稱'
             }), 400
-        
+
         # 插入新帳號
-        insert_query = """
-            INSERT INTO simulated_account (user_id, account_type, cash, account_name, created_at) 
-            VALUES (%s, %s, %s, %s, %s)
-        """
-        
-        current_time = datetime.now()
-        cursor.execute(insert_query, (user_id, account_type, initial_cash, account_name, current_time))
-        
+        if account_type == 'history':
+            insert_query = """
+                INSERT INTO simulated_accounts (user_id, account_type, cash, account_name, created_at, simulation_date) 
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """
+            current_time = datetime.now()
+            cursor.execute(insert_query, (user_id, account_type, initial_cash, account_name, current_time, simulation_date))
+        else:
+            insert_query = """
+                INSERT INTO simulated_accounts (user_id, account_type, cash, account_name, created_at) 
+                VALUES (%s, %s, %s, %s, %s)
+            """
+            current_time = datetime.now()
+            cursor.execute(insert_query, (user_id, account_type, initial_cash, account_name, current_time))
+
         # 取得新建立的帳號 ID
         new_account_id = cursor.lastrowid
-        
+
         conn.commit()
         cursor.close()
         conn.close()
-        
+
         logger.info(f"成功建立帳號: user_id={user_id}, account_id={new_account_id}, name={account_name}")
-        
+
         return jsonify({
             'ok': True,
             'message': '帳號建立成功',
@@ -201,12 +229,14 @@ def create_simulated_account():
 
 @choose_account_api.route('/api/select-account', methods=['POST'])
 def select_account():
+    logger.info(f"[select-account] session 寫入前: {dict(session)}")
     """
     選擇帳號並儲存到 session
     """
     try:
         # 從 session 取得 user_id
-        user_id = session.get('user_id')
+        # user_id = session.get('user_id')
+        user_id = "18"
         if not user_id:
             return jsonify({
                 'ok': False,
@@ -235,7 +265,7 @@ def select_account():
         # 驗證帳號是否存在且屬於該使用者
         verify_query = """
             SELECT account_id, account_name, account_type, cash
-            FROM simulated_account 
+            FROM simulated_accounts 
             WHERE account_id = %s AND user_id = %s
         """
         
@@ -250,11 +280,23 @@ def select_account():
                 'message': '找不到指定的帳號或無權限訪問'
             }), 404
         
+        # 查詢 simulation_date（僅 history 帳號）
+        simulation_date = None
+        if account['account_type'] == 'history':
+            cursor2 = conn.cursor(dictionary=True)
+            cursor2.execute("SELECT simulation_date FROM simulated_accounts WHERE account_id = %s", (account_id,))
+            row = cursor2.fetchone()
+            if row:
+                simulation_date = row.get('simulation_date')
+            cursor2.close()
         # 將選擇的帳號資訊儲存到 session
         session['selected_account_id'] = account_id
         session['selected_account_type'] = account['account_type']
         session['selected_account_name'] = account['account_name']
         session['selected_account_cash'] = float(account['cash'])
+        if simulation_date:
+            session['selected_simulation_date'] = simulation_date
+        logger.info(f"[select-account] session 寫入後: {dict(session)}")
         
         cursor.close()
         conn.close()
@@ -293,12 +335,14 @@ def select_account():
 
 @choose_account_api.route('/api/current-account', methods=['GET'])
 def get_current_account():
+    logger.info(f"[current-account] session 讀取: {dict(session)}")
     """
     取得當前選擇的帳號資訊
     """
     try:
         # 從 session 取得 user_id
-        user_id = session.get('user_id')
+        # user_id = session.get('user_id')
+        user_id = "18"
         if not user_id:
             return jsonify({
                 'ok': False,
@@ -311,14 +355,18 @@ def get_current_account():
                 'message': '未選擇帳號'
             }), 400
         
+        resp = {
+            'selected_account_id': session['selected_account_id'],
+            'selected_account_name': session.get('selected_account_name', ''),
+            'selected_account_type': session.get('selected_account_type', ''),
+            'selected_account_cash': session.get('selected_account_cash', 0.0)
+        }
+        # 歷史帳號加上 simulation_date
+        if resp['selected_account_type'] == 'history':
+            resp['selected_account_simulation_date'] = session.get('selected_simulation_date', None)
         return jsonify({
             'ok': True,
-            'account': {
-                'saccount_id': session['selected_account_id'],
-                'account_name': session.get('selected_account_name', ''),
-                'account_type': session.get('selected_account_type', ''),
-                'cash': session.get('selected_account_cash', 0.0)
-            }
+            'account': resp
         })
         
     except Exception as e:
